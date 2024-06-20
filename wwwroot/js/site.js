@@ -89,20 +89,50 @@ async function renderTasks(tasks) {
 
     tasks.forEach(task => {
         const row = document.createElement('tr');
-        row.innerHTML = `
-                            <td>${task.id}</td>
-                            <td>${task.title}</td>
-                            <td>${task.description}</td>
-                            <td>${task.priority}</td>
-                            <td>${task.status}</td>
-                            <td>${new Date(task.due).toLocaleString()}</td>
-                            <td>
-                                <div class="button-container">
-                                    <button class="button" onclick="openModal(${task.id})">Edit</button>
-                                    <button class="button delete" onclick="deleteTask(${task.id})">Delete</button>
-                                </div>
-                            </td>
-                        `;
+
+        const idCell = document.createElement('td');
+        idCell.textContent = task.id;
+        row.appendChild(idCell);
+
+        const titleCell = document.createElement('td');
+        titleCell.textContent = task.title;
+        row.appendChild(titleCell);
+
+        const descriptionCell = document.createElement('td');
+        descriptionCell.textContent = task.description;
+        row.appendChild(descriptionCell);
+
+        const priorityCell = document.createElement('td');
+        priorityCell.textContent = task.priority;
+        row.appendChild(priorityCell);
+
+        const statusCell = document.createElement('td');
+        statusCell.textContent = task.status;
+        row.appendChild(statusCell);
+
+        const dueCell = document.createElement('td');
+        dueCell.textContent = new Date(task.due).toLocaleString();
+        row.appendChild(dueCell);
+
+        const actionCell = document.createElement('td');
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('button-container');
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', () => openModal(task.id));
+        buttonContainer.appendChild(editButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('button', 'delete');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteTask(task.id));
+        buttonContainer.appendChild(deleteButton);
+
+        actionCell.appendChild(buttonContainer);
+        row.appendChild(actionCell);
+
         tableBody.appendChild(row);
     });
 }
